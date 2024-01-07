@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('url')->nullable();
             $table->longText('description')->nullable();
             $table->boolean('is_visible')->default(true);
+            $table->unsignedInteger('last_edited_by_id')->nullable();
             $table->timestamps();
         });
     }

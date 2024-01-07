@@ -16,4 +16,12 @@ class EditProduct extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['last_edited_by_id'] = auth()->id();
+
+        return $data;
+    }
+
 }

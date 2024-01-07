@@ -12,9 +12,15 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -47,7 +53,8 @@ class ProductResource extends Resource
                             ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
                         TextInput::make('slug')
                             ->required()
-                            ->readOnly()
+                            ->disabled()
+                            ->dehydrated()
                             ->unique(ignoreRecord: true),
                         Textarea::make('description')
                             ->label('Description (if any)')
@@ -60,6 +67,7 @@ class ProductResource extends Resource
                             ->url()
                             ->suffixIcon('heroicon-m-globe-alt'),
                         FileUpload::make('image')
+                            ->label('Image (if any)')
                             ->imageEditor()
                             ->image(),
                         Forms\Components\Toggle::make('is_visible')
@@ -74,28 +82,33 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
+                ImageColumn::make('image')
                     ->label('Image'),
-                Tables\Columns\TextColumn::make('code')
-                    ->label('Code & Product Title')
-                    ->description(fn(Product $record): string => $record->name)
-                    ->searchable(['code', 'name']),
-                // Tables\Columns\TextColumn::make('name')
-                //     ->label('Product Name')
-                //     ->searchable(),
-                // Tables\Columns\TextColumn::make('slug')
-                //     ->searchable(),
-                Tables\Columns\TextColumn::make('url')
+                TextColumn::make('code')
+                    ->label('Product Code')
+                    ->sortable()
                     ->searchable(),
-                Tables\Columns\ToggleColumn::make('is_visible')
+                // ->description(fn(Product $record): string => $record->name)
+                // ->searchable(['code', 'name']),
+                TextColumn::make('name')
+                    ->label('Product Name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('url')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                ToggleColumn::make('is_visible')
                     ->label('Visible'),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    EditAction::make()->color('warning'),
+                    DeleteAction::make()
+                ])
+                    ->icon('heroicon-m-ellipsis-horizontal')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -116,7 +129,7 @@ class ProductResource extends Resource
         return [
             'index' => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
-            // 'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
 }
