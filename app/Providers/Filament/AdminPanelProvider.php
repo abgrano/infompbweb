@@ -33,8 +33,12 @@ class AdminPanelProvider extends PanelProvider
                 'info' => Color::Blue,
                 'primary' => Color::Amber,
                 'success' => Color::Green,
-                'warning' => Color::Amber,
+                'warning' => Color::Orange,
             ])
+            ->favicon(asset('images/favicon.ico'))
+            ->brandName('SMIL - Sistem Maklumat Industri Lada')
+            ->brandLogo(asset('images/SMIL.png'))
+            ->brandLogoHeight('4rem')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -43,7 +47,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

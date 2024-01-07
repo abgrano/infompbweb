@@ -1,1 +1,0 @@
-Lembaga Lada Malaysia
