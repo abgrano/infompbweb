@@ -10,6 +10,8 @@ class DailyLocalPrice extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['date_data', 'city_id', 'black', 'white', 'description', 'is_active'];
+
     Public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);

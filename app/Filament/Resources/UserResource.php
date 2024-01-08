@@ -61,7 +61,7 @@ class UserResource extends Resource
                 TextInput::make('email')
                     ->email()
                     ->required(),
-                DateTimePicker::make('email_verified_at'),
+                // DateTimePicker::make('email_verified_at'),
                 TextInput::make('password')
                     ->password()
                     ->autocomplete('new-password')
@@ -82,10 +82,10 @@ class UserResource extends Resource
                     ->searchable(),
                 TextColumn::make('tel')
                     ->searchable(),
-                TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                // TextColumn::make('email_verified_at')
+                //     ->dateTime()
+                //     ->sortable()
+                //     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

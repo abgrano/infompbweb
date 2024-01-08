@@ -10,7 +10,9 @@ class Region extends Model
 {
     use HasFactory;
 
-    Public function countries(): HasMany
+    protected $fillable = ['slug', 'name'];
+
+    public function countries(): HasMany
     {
         return $this->hasMany(Country::class);
     }

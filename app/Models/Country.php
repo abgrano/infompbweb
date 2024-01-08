@@ -11,6 +11,8 @@ class Country extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['region_id', 'slug', 'name'];
+
     Public function states(): HasMany
     {
         return $this->hasMany(State::class);

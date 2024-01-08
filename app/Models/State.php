@@ -11,6 +11,8 @@ class State extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['country_id', 'name', 'slug'];
+
     Public function cities(): HasMany
     {
         return $this->hasMany(City::class);
