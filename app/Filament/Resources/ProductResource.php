@@ -37,11 +37,11 @@ class ProductResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $activeNavigationIcon = 'heroicon-s-star';
 
-    protected static int $globalSearchResultsLimit = 3;
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
     }
+    protected static int $globalSearchResultsLimit = 3;
 
     protected static ?string $recordTitleAttribute = 'name';
     public static function getGloballySearchableAttributes(): array

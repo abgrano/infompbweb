@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateCountryPrice extends CreateRecord
 {
     protected static string $resource = CountryPriceResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

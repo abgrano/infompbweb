@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateDailyLocalPrice extends CreateRecord
 {
     protected static string $resource = DailyLocalPriceResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

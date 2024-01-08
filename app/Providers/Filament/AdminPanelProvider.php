@@ -36,7 +36,7 @@ class AdminPanelProvider extends PanelProvider
                 'success' => Color::Green,
                 'warning' => Color::Orange,
             ])
-            ->globalSearchKeyBindings(['command+k','crtl+k'])
+            // ->globalSearchKeyBindings(['command+k', 'crtl+k'])
             ->favicon(asset('images/favicon.ico'))
             ->brandName('SMIL - Sistem Maklumat Industri Lada')
             ->brandLogo(asset('images/SMIL.png'))

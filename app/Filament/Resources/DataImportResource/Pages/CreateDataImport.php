@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateDataImport extends CreateRecord
 {
     protected static string $resource = DataImportResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
