@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -35,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
                 'success' => Color::Green,
                 'warning' => Color::Orange,
             ])
+            ->globalSearchKeyBindings(['command+k','crtl+k'])
             ->favicon(asset('images/favicon.ico'))
             ->brandName('SMIL - Sistem Maklumat Industri Lada')
             ->brandLogo(asset('images/SMIL.png'))
@@ -43,6 +45,18 @@ class AdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+            ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('International Information'),
+                NavigationGroup::make()
+                    ->label('Local Information'),
+                NavigationGroup::make()
+                    ->label('Farmers & Company Information'),
+                NavigationGroup::make()
+                    ->label('Data Setting'),
+                NavigationGroup::make()
+                    ->label('Administrator')
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

@@ -21,19 +21,39 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Data Setting';
 
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $activeNavigationIcon = 'heroicon-s-star';
+
+    protected static int $globalSearchResultsLimit = 3;
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
+    }
+
+    protected static ?string $recordTitleAttribute = 'name';
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['code', 'name'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Code' => $record->code,
+        ];
     }
 
     public static function form(Form $form): Form
@@ -111,8 +131,8 @@ class ProductResource extends Resource
                     ->icon('heroicon-m-ellipsis-horizontal')
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
