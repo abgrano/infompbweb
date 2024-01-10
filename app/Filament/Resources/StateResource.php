@@ -28,6 +28,7 @@ class StateResource extends Resource
     protected static ?string $model = State::class;
 
     protected static ?string $navigationGroup = 'Data Setting';
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $activeNavigationIcon = 'heroicon-s-star';
@@ -46,7 +47,7 @@ class StateResource extends Resource
                     ->required(),
                 TextInput::make('name')
                     ->required()
-                    ->live()
+                    ->live(onBlur: true)
                     ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
                 TextInput::make('slug')
                     ->required()

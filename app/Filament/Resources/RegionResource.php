@@ -28,6 +28,7 @@ class RegionResource extends Resource
     protected static ?string $model = Region::class;
 
     protected static ?string $navigationGroup = 'Data Setting';
+    protected static ?int $navigationSort = 5;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $activeNavigationIcon = 'heroicon-s-star';
@@ -43,7 +44,7 @@ class RegionResource extends Resource
             ->schema([
                 TextInput::make('name')
                     ->required()
-                    ->live()
+                    ->live(onBlur: true)
                     ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
                 TextInput::make('slug')
                     ->required()

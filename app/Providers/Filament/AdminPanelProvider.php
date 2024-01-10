@@ -36,7 +36,7 @@ class AdminPanelProvider extends PanelProvider
                 'success' => Color::Green,
                 'warning' => Color::Orange,
             ])
-            // ->globalSearchKeyBindings(['command+k', 'crtl+k'])
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->favicon(asset('images/favicon.ico'))
             ->brandName('SMIL - Sistem Maklumat Industri Lada')
             ->brandLogo(asset('images/SMIL.png'))
@@ -54,9 +54,11 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('Farmers & Company Information'),
                 NavigationGroup::make()
+                    ->label('Products'),
+                NavigationGroup::make()
                     ->label('Data Setting'),
                 NavigationGroup::make()
-                    ->label('Administrator')
+                    ->label('Users')
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([

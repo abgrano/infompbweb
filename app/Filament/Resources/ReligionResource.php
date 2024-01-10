@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ReligionResource extends Resource
 {
     protected static ?string $model = Religion::class;
-    protected static ?string $navigationGroup = 'Data Setting';
+    protected static ?string $navigationGroup = 'Users';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $activeNavigationIcon = 'heroicon-s-star';

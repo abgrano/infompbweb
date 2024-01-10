@@ -7,6 +7,16 @@ use App\Filament\Resources\DistrictResource\RelationManagers;
 use App\Models\District;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
+use Illuminate\Support\Str;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,6 +28,7 @@ class DistrictResource extends Resource
     protected static ?string $model = District::class;
 
     protected static ?string $navigationGroup = 'Data Setting';
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $activeNavigationIcon = 'heroicon-s-star';
@@ -31,15 +42,19 @@ class DistrictResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('city_id')
+                Select::make('city_id')
                     ->relationship('city', 'name')
                     ->required(),
                 Forms\Components\TextInput::make('name')
+                    ->label('District Name')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                TextInput::make('slug')
                     ->required()
-                    ->maxLength(255),
+                    ->disabled()
+                    ->dehydrated()
+                    ->unique(ignoreRecord: true),
             ]);
     }
 
@@ -47,18 +62,19 @@ class DistrictResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('city.name')
+                TextColumn::make('city.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
+                    ->label('District Name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
+                TextColumn::make('slug')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -67,11 +83,11 @@ class DistrictResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -87,8 +103,8 @@ class DistrictResource extends Resource
     {
         return [
             'index' => Pages\ListDistricts::route('/'),
-            'create' => Pages\CreateDistrict::route('/create'),
-            'edit' => Pages\EditDistrict::route('/{record}/edit'),
+            // 'create' => Pages\CreateDistrict::route('/create'),
+            // 'edit' => Pages\EditDistrict::route('/{record}/edit'),
         ];
     }
 }

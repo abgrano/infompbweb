@@ -7,6 +7,16 @@ use App\Filament\Resources\NationResource\RelationManagers;
 use App\Models\Nation;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
+use Illuminate\Support\Str;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -17,7 +27,7 @@ class NationResource extends Resource
 {
     protected static ?string $model = Nation::class;
 
-    protected static ?string $navigationGroup = 'Data Setting';
+    protected static ?string $navigationGroup = 'Users';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $activeNavigationIcon = 'heroicon-s-star';
@@ -33,10 +43,13 @@ class NationResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                TextInput::make('slug')
                     ->required()
-                    ->maxLength(255),
+                    ->disabled()
+                    ->dehydrated()
+                    ->unique(ignoreRecord: true),
             ]);
     }
 
@@ -44,15 +57,15 @@ class NationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
+                TextColumn::make('slug')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -61,11 +74,11 @@ class NationResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -81,8 +94,8 @@ class NationResource extends Resource
     {
         return [
             'index' => Pages\ListNations::route('/'),
-            'create' => Pages\CreateNation::route('/create'),
-            'edit' => Pages\EditNation::route('/{record}/edit'),
+            // 'create' => Pages\CreateNation::route('/create'),
+            // 'edit' => Pages\EditNation::route('/{record}/edit'),
         ];
     }
 }

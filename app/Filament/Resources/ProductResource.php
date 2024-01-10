@@ -32,7 +32,8 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationGroup = 'Data Setting';
+    protected static ?string $navigationGroup = 'Products';
+    protected static ?string $label = 'Pepper Products';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $activeNavigationIcon = 'heroicon-s-star';
@@ -69,7 +70,7 @@ class ProductResource extends Resource
                             ->required(),
                         TextInput::make('name')->label('Product Name')
                             ->required()
-                            ->live()
+                            ->live(onBlur: true)
                             ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
                         TextInput::make('slug')
                             ->required()

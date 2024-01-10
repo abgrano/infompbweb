@@ -10,6 +10,8 @@ class District extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['city_id', 'name', 'slug'];
+
     Public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
