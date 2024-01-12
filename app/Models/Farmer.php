@@ -11,6 +11,8 @@ class Farmer extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['name', 'icno'];
+
     public function nation(): BelongsTo
     {
         return $this->belongsTo(Nation::class);

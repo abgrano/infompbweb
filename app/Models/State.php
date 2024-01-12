@@ -13,6 +13,11 @@ class State extends Model
 
     protected $fillable = ['country_id', 'name', 'slug'];
 
+    Public function dataexport(): HasMany
+    {
+        return $this->hasMany(DataExport::class);
+    }
+
     Public function cities(): HasMany
     {
         return $this->hasMany(City::class);

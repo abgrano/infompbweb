@@ -18,6 +18,11 @@ class Country extends Model
         return $this->hasMany(State::class);
     }
 
+    Public function dataexport(): HasMany
+    {
+        return $this->hasMany(DataExport::class);
+    }
+
     Public function region(): BelongsTo
     {
         return $this->belongsTo(Region::class);

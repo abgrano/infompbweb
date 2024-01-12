@@ -15,6 +15,11 @@ class DataExport extends Model
         return $this->belongsTo(Product::class);
     }
 
+    Public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
+    }
+
     Public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);

@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('farmers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('icno')->unique();
+            $table->string('nama');
+            $table->string('kp')->unique();
+            $table->unsignedTinyInteger('umur')->default(0);
+            $table->string('milik')->nullable();
+            $table->string('tel')->nullable();
+            $table->string('email')->nullable();
+            $table->string('jantina')->nullable();
+            
+            $table->string('bangsa')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
